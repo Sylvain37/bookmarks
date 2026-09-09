@@ -1,0 +1,743 @@
+/*! style.css */
+
+/* ==========================================================================
+   Theme
+   ========================================================================== */
+
+:root {
+    --title-color:          #f7b500;
+    --gauge-fill-color:     #f7b5006d;
+    --zone-border-color:    #807e84;
+    --subtitle-color:       #605e64;
+    --content-color:        #403e44;
+    --background-color:     #ffffff;
+    --background-shadow:    #201e2466;
+    --common-text-color:    #201e24;
+
+    --surface-color:        var(--background-color);
+    --border-color:         var(--zone-border-color);
+    --muted-color:          var(--subtitle-color);
+    --text-color:           var(--common-text-color);
+    --hover-color:          color-mix(in srgb, var(--subtitle-color) 15%, transparent);
+
+    --mono-font:
+        "Consolas",
+        "Monaco",
+        "DejaVu Sans Mono",
+        "Liberation Mono",
+        "Courier New",
+        monospace;
+}
+
+:root[theme-color="dark"] {
+    --zone-border-color:    #4a4850;
+    --subtitle-color:       #a09ea4;
+    --content-color:        #c8c6cc;
+    --background-color:     #1a1820;
+    --background-shadow:    #807e8480;
+    --common-text-color:    #e8e6ec;
+}
+
+/* ==========================================================================
+   Layout
+   ========================================================================== */
+
+/*
+ * Layout par défaut
+ * --------------------------------------------------------------------------
+ */
+
+:root {
+    --content-max-width:    1200px;
+    --section-gap:          1.5rem;
+    --card-padding:         1rem;
+}
+
+/*
+ * One-page
+ * --------------------------------------------------------------------------
+ * Une seule colonne, centrée, avec défilement vertical naturel.
+ */
+
+:root[theme-layout="onepage"] {
+    --content-max-width: 900px;
+}
+
+:root[theme-layout="onepage"] body {
+    padding: 0;
+}
+
+/* Page */
+
+:root[theme-layout="onepage"] .page {
+    min-height: 100vh;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+/* Header compact */
+
+:root[theme-layout="onepage"] .page-header {
+    padding: 1rem 1.25rem;
+}
+
+:root[theme-layout="onepage"] .page-header-content {
+    width: 100%;
+}
+
+:root[theme-layout="onepage"] .page-header-content h1 {
+    font-size: 28px;
+}
+
+/* Contenu : une seule colonne */
+
+:root[theme-layout="onepage"] .page-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--section-gap);
+    padding: 1rem 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   Tags
+   -------------------------------------------------------------------------- */
+
+:root[theme-layout="onepage"] .page-content-left-column {
+    width: 100%;
+    padding: 0 0 0.75rem;
+    border: 0;
+    border-bottom: 1px solid var(--zone-border-color);
+}
+
+:root[theme-layout="onepage"] .page-content-section {
+    margin-bottom: 0;
+}
+
+:root[theme-layout="onepage"] .page-content-section-title {
+    margin-bottom: 0.75rem;
+    font-size: 16px;
+}
+
+:root[theme-layout="onepage"] .label-list {
+    gap: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Liste des bookmarks
+   -------------------------------------------------------------------------- */
+
+:root[theme-layout="onepage"] .page-content-right-column {
+    width: 100%;
+    min-width: 0;
+}
+
+/*
+ * La section principale "Liens" ne doit pas avoir le même comportement
+ * visuel que les articles individuels.
+ */
+
+:root[theme-layout="onepage"] .page-content-right-column > .section {
+    width: 100%;
+}
+
+/* Chaque bookmark devient une ligne compacte */
+
+:root[theme-layout="onepage"] .page-content-right-column article.section {
+    margin: 0;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--zone-border-color);
+}
+
+/* Le dernier bookmark n'a pas besoin de bordure */
+
+:root[theme-layout="onepage"] .page-content-right-column article.section:last-child {
+    border-bottom: 0;
+}
+
+/* Ligne d'un bookmark */
+
+:root[theme-layout="onepage"] .section-header {
+    min-width: 0;
+}
+
+/* Nom du bookmark */
+
+:root[theme-layout="onepage"] article .section-title {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Tags du bookmark */
+
+:root[theme-layout="onepage"] .section-labels {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    gap: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   Recherche
+   -------------------------------------------------------------------------- */
+
+:root[theme-layout="onepage"] #search-input {
+    width: min(100%, 18rem);
+    min-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Formulaire d'ajout
+   -------------------------------------------------------------------------- */
+
+:root[theme-layout="onepage"] .form-add {
+    margin: 0.5rem 0 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   État vide
+   -------------------------------------------------------------------------- */
+
+:root[theme-layout="onepage"] .empty {
+    margin: 1rem 0;
+    color: var(--muted-color);
+}
+
+
+
+/*
+ * Layout three-areas explicite
+ * --------------------------------------------------------------------------
+ */
+
+:root[theme-layout="three-areas"] {
+    --content-max-width: 1200px;
+    --section-gap:       1.5rem;
+    --card-padding:      1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([theme-color="light"]):not([theme-color="dark"]) {
+        --zone-border-color:    #4a4850;
+        --subtitle-color:       #a09ea4;
+        --content-color:        #c8c6cc;
+        --background-color:     #1a1820;
+        --background-shadow:    #807e8480;
+        --common-text-color:    #e8e6ec;
+    }
+}
+
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin:      0;
+    padding:     30px;
+    background:  var(--background-color);
+    color:       var(--common-text-color);
+    font-family: "Inter", "Segoe UI", sans-serif;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   Settings menu
+   ========================================================================== */
+
+.settings-menu {
+    position: fixed;
+    top:      0;
+    left:     0;
+    z-index:  100;
+}
+
+.settings-menu-trigger {
+    padding:     0.25rem 1.5rem 1.5rem 0.25rem;
+    border:      none;
+    color:       var(--common-text-color);
+    font-size:   1rem;
+    cursor:      pointer;
+    clip-path:   polygon(0% 0%, 100% 0%, 0% 100%);
+}
+
+.settings-menu-panel {
+    position:      absolute;
+    top:           100%;
+    left:          0;
+    display:       none;
+    min-width:     200px;
+    padding:       0.5rem 0;
+    border:        1px solid var(--border-color);
+    border-radius: 8px;
+    background:    var(--surface-color);
+    color:         var(--common-text-color);
+    box-shadow:    0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.settings-menu-panel::before {
+    content:  "";
+    position: absolute;
+    top:      -8px;
+    right:    0;
+    left:     0;
+    height:   8px;
+}
+
+.settings-menu:hover .settings-menu-panel {
+    display: block;
+}
+
+.settings-menu-group {
+    padding: 0.25rem 0;
+}
+
+.settings-menu-group + .settings-menu-group {
+    margin-top:  0.25rem;
+    padding-top: 0.5rem;
+    border-top:  1px solid var(--border-color);
+}
+
+.settings-menu-label {
+    padding:        0.25rem 0.75rem;
+    color:          var(--muted-color);
+    font-size:      0.7rem;
+    font-weight:    600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.settings-menu-item {
+    display:     block;
+    width:       100%;
+    padding:     0.4rem 0.75rem;
+    border:      none;
+    background:  none;
+    color:       var(--text-color);
+    font-size:   0.9rem;
+    text-align:  left;
+    cursor:      pointer;
+}
+
+.settings-menu-item:hover {
+    background: var(--hover-color);
+}
+
+.settings-menu-item.active {
+    font-weight: 600;
+}
+
+
+/* ==========================================================================
+   Page
+   ========================================================================== */
+
+.page {
+    max-width:  var(--content-max-width);
+    margin:     auto;
+    border:     1px solid var(--zone-border-color);
+    background: var(--background-color);
+    box-shadow: 0 5px 20px var(--background-shadow);
+}
+
+.page-header {
+    display:       flex;
+    align-items:   center;
+    gap:           20px;
+    padding:       20px;
+    border-bottom: 2px solid var(--title-color);
+}
+
+.page-illustration {
+    flex-shrink:   0;
+    width:         200px;
+    height:        200px;
+    border:        2px solid var(--title-color);
+    border-radius: 50%;
+    object-fit:    cover;
+}
+
+.page-header-content {
+    display:         flex;
+    flex:            1;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             1rem;
+}
+
+.page-header-content h1 {
+    margin:         0;
+    font-size:       34px;
+    letter-spacing: 1px;
+}
+
+.page-header-content h2 {
+    margin:        0;
+    color:         var(--title-color);
+    font-size:     18px;
+    font-weight:   600;
+}
+
+.page-header-subtitle {
+    margin-top: 14px;
+    color:      var(--subtitle-color);
+    font-style: italic;
+}
+
+.page-header-references {
+    display:     flex;
+    flex-wrap:   wrap;
+    gap:         20px;
+    margin-top:  20px;
+    font-family: var(--mono-font);
+    font-size:   14px;
+    font-weight: 500;
+}
+
+.page a {
+    color:           var(--title-color);
+    text-decoration: none;
+}
+
+.page a:hover {
+    text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   Page content
+   ========================================================================== */
+
+.page-content {
+    display:               grid;
+    grid-template-columns: 320px 1fr;
+    gap:                   25px;
+    padding:               20px;
+}
+
+.page-content-left-column {
+    padding-right: 25px;
+    border-right:  1px solid var(--zone-border-color);
+}
+
+.page-content-right-column {
+    min-width: 0;
+}
+
+.page-content-section {
+    margin-bottom: 40px;
+}
+
+.page-content-section-title {
+    position:        relative;
+    margin-bottom:   20px;
+    padding-bottom:  8px;
+    font-size:       20px;
+    font-weight:     700;
+    letter-spacing:  1px;
+    text-transform:  uppercase;
+}
+
+.page-content-section-title::after {
+    content:    "";
+    position:   absolute;
+    bottom:     0;
+    left:       0;
+    width:      60px;
+    height:     2px;
+    background: var(--title-color);
+}
+
+
+/* ==========================================================================
+   Search
+   ========================================================================== */
+
+#search-input {
+    width:         12rem;
+    min-width:     12rem;
+    padding:       0.4rem 0.8rem;
+    border:        1px solid var(--title-color);
+    border-radius: 4px;
+    background:    transparent;
+    color:         inherit;
+}
+
+
+/* ==========================================================================
+   Labels / gauges
+   ========================================================================== */
+
+.label-list {
+    display:   flex;
+    flex-wrap: wrap;
+    gap:       8px;
+}
+
+.label-gauge {
+    position:      relative;
+    display:       inline-flex;
+    align-items:   center;
+    width:         fit-content;
+    max-width:     100%;
+    overflow:      hidden;
+    padding:       1px 6px;
+    border:        1px solid var(--title-color);
+    border-radius: 5px;
+    background:    var(--background-color);
+    cursor:        pointer;
+    user-select:   none;
+}
+
+.label-gauge.active {
+    background: var(--gauge-fill-color);
+}
+
+.label-name {
+    position:    relative;
+    z-index:     2;
+    white-space: nowrap;
+    font-family: var(--mono-font);
+    font-size:   9px;
+    font-weight: 500;
+}
+
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.sidebar-item {
+    margin-bottom: 15px;
+}
+
+.sidebar-item small {
+    display:     block;
+    margin-top:  2px;
+    color:       var(--subtitle-color);
+    font-family: var(--mono-font);
+    font-size:   12px;
+}
+
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+/* .section:not(:last-child) {
+    margin-bottom:     5px;
+    padding-bottom:    5px;
+    border-bottom:     1px solid var(--zone-border-color);
+    page-break-inside: avoid;
+} */
+
+.page-content-right-column > .section {
+    margin: 0;
+}
+
+.page-content-right-column > .section > article.section {
+    margin: 0;
+}
+
+.page-content-right-column > .section > article.section:not(:last-child) {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--zone-border-color);
+}
+
+:root[theme-layout="onepage"]
+.page-content-right-column > .section > article.section:not(:last-child) {
+    margin-bottom: 0;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--zone-border-color);
+}
+
+.section-header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             1rem;
+}
+
+.section-illustration {
+    width:         52px;
+    height:        52px;
+    padding:       4px;
+    border:        1px solid var(--zone-border-color);
+    background:    var(--background-color);
+    object-fit:    contain;
+}
+
+.section-title {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             0.5rem;
+    font-size:       20px;
+    font-weight:     700;
+}
+
+.section-meta {
+    margin-top:  4px;
+    color:       var(--title-color);
+    font-family: var(--mono-font);
+    font-size:   12px;
+    font-weight: 600;
+}
+
+.section-description {
+    margin-top: 15px;
+    color:      var(--content-color);
+}
+
+.section ul {
+    margin-top:   15px;
+    padding-left: 20px;
+}
+
+.section li {
+    margin-bottom: 10px;
+    color:         var(--content-color);
+}
+
+.section li::marker {
+    color: var(--title-color);
+}
+
+.section-labels {
+    display:         flex;
+    flex:            1;
+    justify-content: flex-end;
+    gap:             0.5rem;
+}
+
+.section-label {
+    padding:       1px 6px;
+    border:        1px solid var(--title-color);
+    border-radius: 5px;
+    font-family:   var(--mono-font);
+    font-size:     9px;
+}
+
+
+/* ==========================================================================
+   Buttons / forms
+   ========================================================================== */
+
+.btn-add,
+.btn-delete {
+    flex:        0 0 30px;
+    width:       30px;
+    height:      30px;
+    border:      none;
+    background:  none;
+    font-size:   1rem;
+    line-height: 1;
+    opacity:     0.5;
+    cursor:      pointer;
+    transition:  opacity 0.15s;
+}
+
+.btn-add:hover,
+.btn-delete:hover {
+    opacity: 1;
+}
+
+.form-add {
+    display:        flex;
+    flex-direction: column;
+    gap:            0.5rem;
+    margin:         0.5rem 0;
+    padding:        0.75rem;
+    border:         1px solid var(--title-color);
+    border-radius:  6px;
+}
+
+.form-add[hidden] {
+    display: none;
+}
+
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    body {
+        padding: 15px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        text-align:     center;
+    }
+
+    .page-header-content {
+        width:         100%;
+        flex-direction: column;
+    }
+
+    .page-header-references {
+        justify-content: center;
+    }
+
+    .page-content {
+        grid-template-columns: 1fr;
+    }
+
+    .page-content-left-column {
+        padding-right:  0;
+        padding-bottom: 30px;
+        border-right:   none;
+        border-bottom:  1px solid var(--zone-border-color);
+    }
+}
+
+
+/* ==========================================================================
+   Print
+   ========================================================================== */
+
+@media print {
+    :root,
+    :root[theme-color="dark"] {
+        --zone-border-color: #807e84;
+        --subtitle-color:    #605e64;
+        --content-color:     #403e44;
+        --background-color:  #ffffff;
+        --background-shadow: transparent;
+        --common-text-color: #201e24;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .settings-menu,
+    #search-input,
+    .btn-add,
+    .btn-delete {
+        display: none;
+    }
+
+    .page {
+        border:     none;
+        box-shadow: none;
+    }
+
+    .page-content-section,
+    .section {
+        page-break-inside: avoid;
+    }
+
+    .label-gauge-fill {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust:         exact;
+    }
+}
